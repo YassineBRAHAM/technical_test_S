@@ -167,25 +167,29 @@ Code pour cette fonction :
 
 * Première partie du test:
 
-`SELECT SUM(prod_price * prod_qty)
-FROM TRANSACTIONS as tr
-Left JOIN PRODUCT_NOMENCLATURE AS pn
-ON tr.prod_id = pn.product_id
-WHERE date BETWEEN '01/01/2019' and '31/12/2019'
-	AND 
-GROUP BY client_id, product_type;`
+    SELECT 
+        date,
+        SUM(prod_price * prod_qty) AS ventes
+    FROM 
+        TRANSACTION
+    WHERE 
+        date BETWEEN ‘01/01/2019’ AND ‘31/12/2019’
+    GROUP BY 
+        date
+    ORDER BY 
+        date;
 
 ---------------------------------
 * Seconde partie du test:
 
-`SELECT 
+SELECT 
     tr.client_id,
     SUM(CASE WHEN pn.product_type = 'MEUBLE' THEN tr.prod_price * tr.prod_qty ELSE 0 END) AS ventes_meubles,
     SUM(CASE WHEN pn.product_type = 'DECO' THEN tr.prod_price * tr.prod_qty ELSE 0 END) AS ventes_deco
 FROM 
-    TRANSACTIONS tr
+    TRANSACTIONS AS tr
 JOIN 
-    PRODUCT_NOMENCLATURE pn
+    PRODUCT_NOMENCLATURE AS pn
 ON 
     tr.prop_id = pn.product_id
 WHERE 
@@ -193,4 +197,5 @@ WHERE
 GROUP BY 
     tr.client_id
 ORDER BY 
-    tr.client_id;`
+    tr.client_id;
+
