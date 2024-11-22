@@ -166,7 +166,7 @@ Code pour cette fonction :
 ## I) SQL:
 
 * Première partie du test:
-
+```sql
     SELECT 
         date,
         SUM(prod_price * prod_qty) AS ventes
@@ -178,24 +178,27 @@ Code pour cette fonction :
         date
     ORDER BY 
         date;
+````
 
 ---------------------------------
 * Seconde partie du test:
 
-SELECT 
+```sql
+    SELECT 
     tr.client_id,
     SUM(CASE WHEN pn.product_type = 'MEUBLE' THEN tr.prod_price * tr.prod_qty ELSE 0 END) AS ventes_meubles,
     SUM(CASE WHEN pn.product_type = 'DECO' THEN tr.prod_price * tr.prod_qty ELSE 0 END) AS ventes_deco
-FROM 
-    TRANSACTIONS AS tr
-JOIN 
-    PRODUCT_NOMENCLATURE AS pn
-ON 
-    tr.prop_id = pn.product_id
-WHERE 
-    tr.date BETWEEN '2019-01-01' AND '2019-12-31'
-GROUP BY 
-    tr.client_id
-ORDER BY 
-    tr.client_id;
+    FROM 
+        TRANSACTIONS AS tr
+    JOIN 
+        PRODUCT_NOMENCLATURE AS pn
+    ON 
+        tr.prop_id = pn.product_id
+    WHERE 
+        tr.date BETWEEN '2019-01-01' AND '2019-12-31'
+    GROUP BY 
+        tr.client_id
+    ORDER BY 
+        tr.client_id;
+````
 
